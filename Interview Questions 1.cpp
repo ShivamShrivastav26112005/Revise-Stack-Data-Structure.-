@@ -129,3 +129,85 @@ int main() {
     return 0;
 }
 
+
+
+4. Evaluate Reverse Polish Notation -: 
+Problem: Evaluate the value of an arithmetic expression in Reverse Polish Notation (RPN). 
+Valid operators are +, -, *, and /. Each operand may be an integer or another expression.
+
+Example:
+Input: ["2", "1", "+", "3", "*"]
+Output: 9
+Explanation: ((2 + 1) * 3) = 9
+
+
+#include <iostream>
+#include <stack>
+#include <vector>
+#include <string>
+using namespace std;
+
+int evalRPN(vector<string>& tokens) {
+    stack<int> st;
+    for (string& token : tokens) {
+        if (token == "+" || token == "-" || token == "*" || token == "/") {
+            int b = st.top(); st.pop();
+            int a = st.top(); st.pop();
+            if (token == "+") st.push(a + b);
+            else if (token == "-") st.push(a - b);
+            else if (token == "*") st.push(a * b);
+            else if (token == "/") st.push(a / b);
+        } else {
+            st.push(stoi(token));
+        }
+    }
+    return st.top();
+}
+
+int main() {
+    vector<string> tokens = {"2", "1", "+", "3", "*"};
+    cout << evalRPN(tokens) << endl; // 9
+    return 0;
+}
+
+
+
+5. Stock Span Problem -: 
+Problem: Given an array of daily stock prices, calculate the stock span for each day. 
+The stock span is defined as the number of consecutive days before the current day 
+where the price of the stock was less than or equal to the current day’s price.
+
+Example:
+Input: [100, 80, 60, 70, 60, 75, 85]
+Output: [1, 1, 1, 2, 1, 4, 6]
+
+
+
+#include <iostream>
+#include <stack>
+#include <vector>
+using namespace std;
+
+vector<int> stockSpan(vector<int>& prices) {
+    stack<int> st;
+    vector<int> span(prices.size());
+    for (int i = 0; i < prices.size(); i++) {
+        while (!st.empty() && prices[st.top()] <= prices[i]) {
+            st.pop();
+        }
+        span[i] = st.empty() ? i + 1 : i - st.top();
+        st.push(i);
+    }
+    return span;
+}
+
+int main() {
+    vector<int> prices = {100, 80, 60, 70, 60, 75, 85};
+    vector<int> result = stockSpan(prices);
+    for (int x : result) cout << x << " ";
+    return 0;
+}
+
+
+
+
