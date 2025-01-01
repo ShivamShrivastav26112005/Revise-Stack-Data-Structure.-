@@ -268,3 +268,61 @@ int main() {
 
 
 
+
+7 -: Implement Stack Using Two Queues. 
+Design a stack using two queues. Implement the following operations:
+
+push(x): Push an element onto the stack.
+pop(): Remove the top element of the stack.
+top(): Get the top element.
+isEmpty(): Return whether the stack is empty.
+Example:
+Input:
+push(1), push(2), top(), pop(), isEmpty()
+Output:
+2, false
+
+Hint: Use queue operations to mimic stack behavior.
+
+
+#include <iostream>
+#include <queue>
+using namespace std;
+
+class Stack {
+    queue<int> q1, q2;
+
+public:
+    void push(int x) {
+        q2.push(x);
+        while (!q1.empty()) {
+            q2.push(q1.front());
+            q1.pop();
+        }
+        swap(q1, q2);
+    }
+
+    void pop() {
+        if (!q1.empty()) q1.pop();
+    }
+
+    int top() {
+        return q1.empty() ? -1 : q1.front();
+    }
+
+    bool isEmpty() {
+        return q1.empty();
+    }
+};
+
+int main() {
+    Stack s;
+    s.push(1);
+    s.push(2);
+    cout << s.top() << endl; // 2
+    s.pop();
+    cout << s.isEmpty() << endl; // 0 (false)
+    return 0;
+}
+
+
