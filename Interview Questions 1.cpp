@@ -209,5 +209,62 @@ int main() {
 }
 
 
+6-: Stack Permutations  -: 
+Given two sequences of integers inputSeq and outputSeq, determine if it is possible
+to generate outputSeq using a stack starting with inputSeq.
+
+Example 1:
+Input:
+inputSeq = [1, 2, 3]
+outputSeq = [2, 1, 3]
+Output: true
+(Explanation: Push 1, push 2, pop 2, pop 1, push 3, pop 3.)
+
+Example 2:
+Input:
+inputSeq = [1, 2, 3]
+outputSeq = [3, 2, 1]
+Output: false
+(Explanation: This order cannot be generated with a stack.)
+
+Constraints:
+
+Solve the problem by simulating the stack operations.
+Output whether the permutation is valid (true or false).
+
+
+
+#include <iostream>
+#include <stack>
+#include <vector>
+using namespace std;
+
+bool isStackPermutation(vector<int>& inputSeq, vector<int>& outputSeq) {
+    stack<int> st;
+    int j = 0; // Pointer for outputSeq
+    for(int i = 0; i < inputSeq.size(); i++){
+        // Push the current element from inputSeq into the stack
+        st.push(inputSeq[i]);
+        // Keep popping from the stack if the top matches the outputSeq
+        while(!st.empty() && st.top() == outputSeq[j]){
+            st.pop();
+            j++;
+        }
+    }
+    // If the stack is empty and we have processed all elements of outputSeq
+    return st.empty() && j == outputSeq.size();
+}
+
+int main() {
+    vector<int> inputSeq = {1, 2, 3};
+    vector<int> outputSeq = {2, 1, 3};
+    
+    if(isStackPermutation(inputSeq, outputSeq)){
+        cout<<"true"<<endl;
+    }else{
+        cout<<"false"<<endl;
+    }
+}
+
 
 
