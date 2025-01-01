@@ -326,3 +326,56 @@ int main() {
 }
 
 
+
+8-: Sort a Stack.
+You are given a stack of integers. Sort the stack in descending order such that the largest number is at the top.
+You can use only one additional stack for temporary storage and no other data structure like arrays.
+
+Example:
+Input: stack = [3, 1, 4, 2]
+Output: stack = [4, 3, 2, 1]
+
+Hint: Compare elements between the two stacks during sorting.
+
+
+#include <iostream>
+#include <stack>
+using namespace std;
+
+void sortStack(stack<int>& s) {
+    stack<int> tempStack;
+    while (!s.empty()) {
+        int temp = s.top();
+        s.pop();
+        while (!tempStack.empty() && tempStack.top() < temp) {
+            s.push(tempStack.top());
+            tempStack.pop();
+        }
+        tempStack.push(temp);
+    }
+    while (!tempStack.empty()) {
+        s.push(tempStack.top());
+        tempStack.pop();
+    }
+}
+
+void printStack(stack<int> s) {
+    while (!s.empty()) {
+        cout << s.top() << " ";
+        s.pop();
+    }
+    cout << endl;
+}
+
+int main() {
+    stack<int> s;
+    s.push(3);
+    s.push(1);
+    s.push(4);
+    s.push(2);
+    
+    sortStack(s);
+    printStack(s); // Output: 4 3 2 1
+
+}
+
