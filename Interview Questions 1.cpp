@@ -379,3 +379,39 @@ int main() {
 
 }
 
+
+9 -: Longest Valid Parentheses. 
+
+Problem: Find the length of the longest valid parentheses substring.
+Example:
+Input: ")()())"
+Output: 4
+
+#include<iostream>
+#include<stack>
+#include<string>
+using namespace std;
+int longestValidParentheses(string s){
+    stack<int>st;
+    st.push(-1); // Initialize with -1 to handle edge cases
+    int maxLength=0;
+    for(int i=0; i<s.length(); i++){
+        if(s[i]=='('){
+            st.push(i);
+        }else{
+            st.pop();
+            if(st.empty()){
+                st.push(i);
+            }else{
+                maxLength=max(maxLength, i-st.top());
+            }
+        }
+    }
+    return maxLength;
+}
+
+int main() {
+    string s=")()())";
+    cout<<longestValidParentheses(s)<<endl; // Output: 4
+
+}
