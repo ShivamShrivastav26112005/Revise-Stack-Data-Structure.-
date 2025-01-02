@@ -387,6 +387,21 @@ Example:
 Input: ")()())"
 Output: 4
 
+    
+Problem -: Find the longest valid substring of parentheses.
+Approach -: 
+Use a stack to store indices of parentheses.
+Push -1 initially to handle cases where the first valid substring starts from the beginning.
+Traverse the string:
+Push the index of ( onto the stack.
+If ) is encountered:
+Pop the stack.
+If the stack becomes empty, push the current index 
+(to reset the base for the next potential valid substring).
+If the stack is not empty, calculate the length of the valid 
+substring as current index - top of the stack and update the maximum length.
+
+
 #include<iostream>
 #include<stack>
 #include<string>
@@ -413,5 +428,89 @@ int longestValidParentheses(string s){
 int main() {
     string s=")()())";
     cout<<longestValidParentheses(s)<<endl; // Output: 4
-
 }
+
+
+12. Decode String -: 
+Problem: Given an encoded string, return its decoded string.
+The encoding rule is: k[encoded_string], where encoded_string is repeated k times.
+
+Example:
+Input: "3[a2[c]]"
+Output: "accaccacc"
+
+
+Algorithm: Decode String -: 
+Problem Statement:
+Decode a string encoded with the format k[encoded_string], 
+where k specifies the number of times encoded_string is repeated.
+
+Steps:
+Initialization:
+
+Use two stacks:
+A stack to store substrings (strStack).
+A stack to store repetition counts (numStack).
+Initialize an empty string currentStr to keep track of the current decoded string.
+Initialize an integer num to store the current repetition count.
+Iterate Through the Input String:
+
+For each character c in the string:
+If c is a digit:
+Multiply num by 10 and add the numeric value of c to handle multi-digit numbers.
+If c is '[':
+Push currentStr onto strStack and num onto numStack.
+Reset currentStr to an empty string and num to 0.
+If c is ']':
+Pop the top element from numStack as repeat (repetition count).
+Pop the top element from strStack as previousStr.
+Append currentStr repeated repeat times to previousStr and store the result in currentStr.
+If c is a letter:
+Append it to currentStr.
+Return Result:
+
+After the loop ends, currentStr contains the fully decoded string. Return it.
+
+
+#include <iostream>
+#include <stack>
+#include <string>
+using namespace std;
+string decodeString(string s) {
+    stack<string>strStack;
+    stack<int>numStack;
+    string currentStr="";
+    int num=0;
+    for(char c : s){
+        if(isdigit(c)){
+            num = num * 10 + (c-'0');
+        }else if(c == '['){
+            strStack.push(currentStr);
+            numStack.push(num);
+            currentStr = "";
+            num = 0;
+        }else if(c == ']'){
+            string temp=currentStr;
+            
+            int repeat=numStack.top(); 
+            numStack.pop();
+            
+            currentStr=strStack.top(); 
+            strStack.pop();
+            
+            while(repeat--){
+                currentStr += temp;
+            }
+        }else{
+            currentStr += c;
+        }
+    }
+    return currentStr;
+}
+
+int main() {
+    string s="3[a2[c]]";
+    cout<<decodeString(s); // Output: accaccacc
+}
+
+Done.
